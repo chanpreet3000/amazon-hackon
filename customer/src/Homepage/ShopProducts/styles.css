@@ -1,0 +1,12 @@
+.shop-products {
+  padding: 2rem 4rem;
+}
+
+.shop-products .product-list {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+}

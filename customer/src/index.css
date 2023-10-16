@@ -1,0 +1,54 @@
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Maven Pro", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.error_message {
+  color: red;
+  font-size: 14px;
+  min-height: 20px;
+}
+
+.success_message {
+  margin-top: 1rem;
+  color: green;
+  font-size: 14px;
+}
+
+.standard_btn {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  color: black;
+  font-size: 16px;
+  padding: 1rem;
+  background-color: #0d0d0d;
+  width: 100%;
+  color: white;
+  border-radius: 3rem;
+  margin-top: 1rem;
+}
+
+.standard_btn:disabled,
+.standard_btn[disabled] {
+  background-color: #666666;
+  cursor: not-allowed;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}

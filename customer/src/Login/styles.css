@@ -1,0 +1,84 @@
+.login-form__wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.login-form {
+  width: 60%;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.login-form_inputs {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login-form__forgot-password-label {
+  color: rgb(0, 102, 255);
+  font-size: 15px;
+  text-align: end;
+  width: 100%;
+  font-weight: bold;
+}
+
+.login__background {
+  flex: 1;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  aspect-ratio: 1500/1080;
+  background-image: url("../raw/img4.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.login__container {
+  flex: 1;
+}
+.login__form-title {
+  font-size: 6rem;
+  margin: 0rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+@media (max-width: 1000px) {
+  .login-form__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .login-form {
+    width: 80%;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+  }
+  .login__background {
+    flex: 1;
+    margin: 0px;
+    padding: 0px;
+    aspect-ratio: 1500/800;
+    background-image: url("../raw/img4.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+  .login__form-title {
+    font-size: 4rem;
+    margin: 0rem;
+    margin-top: 1rem;
+    text-align: center;
+  }
+}

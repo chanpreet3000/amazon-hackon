@@ -1,0 +1,76 @@
+.background-image {
+  margin: 0px;
+  padding: 0px;
+  aspect-ratio: 1985/803;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom center;
+}
+
+.homepage-container {
+  width: 80%;
+  margin: auto;
+}
+
+.homepage-title {
+  font-size: 2rem;
+  margin-top: 2rem;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+}
+
+.homepage-description {
+  font-size: 1rem;
+  width: 100%;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.hompage-button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 3rem;
+}
+.homepage__nav-inverse-btn{
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  color: white;
+  background-color: #131921;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 0.5rem 2rem;
+}
+
+@media (max-width: 1000px) {
+  .homepage-title {
+    font-size: 3rem;
+    margin-top: 5rem;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+  }
+  .hompage-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .background-image {
+    margin: 0px;
+    padding: 0px;
+    aspect-ratio: 1985/1603;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom center;
+  }
+}

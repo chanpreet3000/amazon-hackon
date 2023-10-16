@@ -1,0 +1,69 @@
+.product {
+  display: flex;
+  flex-direction: row;
+  border-radius: 1rem;
+  width: 100%;
+  box-shadow: 0px 0px 3px 3px #cccccc4a;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 100ms;
+  gap: 2rem;
+  position: relative;
+  padding: 1rem;
+  text-decoration: none;
+  color: black;
+}
+.product:hover {
+  transform: scale(1.02);
+}
+.product .image {
+  width: 250px;
+  overflow: hidden;
+  height: auto;
+}
+
+.product .image > img {
+  width: 100%;
+  height: auto;
+}
+.product .container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 1rem;
+}
+
+.product .title {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 22px;
+  margin-bottom: 1rem;
+}
+.product .description {
+  max-height: 75px;
+  text-overflow: ellipsis;
+}
+.product .date {
+  font-weight: lighter;
+  font-size: 10px;
+}
+.product .fassured {
+  width: 75px;
+  height: 20px;
+}
+.product .row {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+.product .link {
+  color: #131921;
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+}
