@@ -130,5 +130,5 @@ const getResponseFromQuery = async (req, res, next) => {
   }
 };
 
-router.post("/", tryCatch(getResponseFromQuery));
+router.get("/", tryCatch(getResponseFromQuery));
 export default router;

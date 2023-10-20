@@ -83,6 +83,8 @@ const getCustomerOrderHistory = async (req, res) => {
   const orders = await OrderHistory.find({ userId: req.customer._id });
   return res.status(200).send({ success: true, orders });
 };
+
+const getProducts = async (req, res) => {};
 //
 //
 //
@@ -90,6 +92,7 @@ const getCustomerOrderHistory = async (req, res) => {
 //API CUSTOMER ROUTES
 router.post("/user/signup", tryCatch(handleCustomerSignUp));
 router.post("/user/login", tryCatch(handleCustomerLogin));
+router.get("/products", tryCatch(getProducts));
 router.get("/dashboard", restrictToCustomerOnly, tryCatch(getCustomerDashboardData));
 router.post("/orders/new", restrictToCustomerOnly, tryCatch(createCustomerOrderHistory));
 router.get("/orders", restrictToCustomerOnly, tryCatch(getCustomerOrderHistory));
