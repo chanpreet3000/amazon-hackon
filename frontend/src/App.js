@@ -8,6 +8,7 @@ import CustomerNavbar from "./Navbar/navbar.component";
 import ShopProducts from "./Homepage/ShopProducts/ShopProducts";
 import ProductInfo from "./Homepage/ProductInfo/ProductInfo";
 import OrderHistory from "./OrderHistory/OrderHistory";
+import SearchPage from "./SearchPage/SearchPage";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="products" element={<ShopProducts />} />
           <Route path="products/:id" element={<ProductInfo />} />
           <Route path="order_history" element={<OrderHistory />} />
+          <Route path="search" element={<SearchPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

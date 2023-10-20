@@ -16,6 +16,8 @@ const Navbar = () => {
   const popUpRef = useRef(null);
   const [accountPopoutVisible, setAccountPopoutVisible] = useState(false);
 
+  const [searchQuery, setSearchQuery] = useState("");
+
   const toggleNavbar = () => {
     navRef.current.classList.toggle("responsive");
   };
@@ -28,6 +30,28 @@ const Navbar = () => {
   const handleDocumentClick = (event) => {
     if (accountPopoutVisible && popUpRef.current && !popUpRef.current.contains(event.target)) {
       setAccountPopoutVisible(false);
+    }
+  };
+  function createQueryString(queryObject = {}) {
+    let queryString = Object.keys(queryObject)
+      .filter((key) => queryObject[key] && !(Array.isArray(queryObject[key]) && !queryObject[key].length))
+      .map((key) => {
+        return Array.isArray(queryObject[key])
+          ? queryObject[key].map((item) => `${encodeURIComponent(key)}=${encodeURIComponent(item)}`).join("&")
+          : `${encodeURIComponent(key)}=${encodeURIComponent(queryObject[key])}`;
+      })
+      .join("&");
+    return queryString ? `?${queryString}` : "";
+  }
+
+  const productsBasedOnSearch = async () => {
+    const key = createQueryString({ query: searchQuery });
+    navigate(`/search${key}`);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      productsBasedOnSearch();
     }
   };
 
@@ -62,8 +86,18 @@ const Navbar = () => {
               type="text"
               placeholder="Search Amazon.in"
               className="homepage__nav-search-input"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
+              onKeyDown={handleKeyDown}
             />
-            <SearchIcon />
+            <SearchIcon
+              style={{ marginRight: "1rem" }}
+              onClick={() => {
+                productsBasedOnSearch();
+              }}
+            />
           </div>
 
           <div className="homepage__nav-btn-wrapper">

@@ -1,9 +1,6 @@
 .homepage__nav {
   width: 100%;
   padding: 1rem 2rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   background-color: #131921;
 }
 .homepage__nav-wrapper {
@@ -11,12 +8,15 @@
   flex-direction: row;
   align-items: center;
   gap: 1rem;
+  justify-content: space-between;
 }
 .homepage__nav-btn-wrapper {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
+  flex: 1;
 }
 .homepage__nav-brand {
   text-decoration: none;
@@ -24,6 +24,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: 1;
 }
 
 .homepage__nav-brand > a {
@@ -131,9 +132,10 @@
   flex-direction: row;
   border-radius: 1rem;
   align-items: center;
+  flex: 4;
 }
 .homepage__nav-search-input {
-  width: 1000px;
+  width: 100%;
   padding: 1rem;
   height: 45px;
   border-radius: 2rem;
@@ -189,61 +191,4 @@
   overflow: hidden;
   font-weight: bold;
   text-overflow: ellipsis;
-}
-@media (max-width: 1000px) {
-  .navbar-menu {
-    display: block;
-    cursor: pointer;
-  }
-  .navbar-close {
-    display: none;
-    cursor: pointer;
-  }
-  .homepage__nav-btn-wrapper {
-    display: none;
-  }
-  .homepage__nav-items {
-    display: none;
-  }
-  .responsive .navbar-menu {
-    display: none;
-    cursor: pointer;
-  }
-  .responsive .navbar-close {
-    display: block;
-    cursor: pointer;
-  }
-  .responsive .homepage__nav-btn-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-  }
-  .responsive .homepage__nav-items {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0rem;
-  }
-  .responsive .homepage__nav-brand {
-    margin: 0px;
-    font-weight: bold;
-    font-size: 2rem;
-  }
-  .homepage__nav.responsive {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 100%;
-    width: 100%;
-    background-color: white;
-  }
-  .responsive .homepage__nav-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-  }
 }

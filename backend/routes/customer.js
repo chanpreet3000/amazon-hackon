@@ -10,6 +10,7 @@ import { tryCatch } from "../util.js";
 const JWT_KEY = process.env.JWT_KEY;
 const customerToken = "customerToken";
 import fs from "fs";
+import { relevancyListFromQuery } from "./query.js";
 //
 //
 //
@@ -104,6 +105,13 @@ const getProducts = async (req, res) => {
   return res.status(200).send({ success: true, products });
 };
 
+const getProductsFromQuery = async (req, res) => {
+  const data = req.body;
+  const query = data.query;
+  const products = await relevancyListFromQuery(query, 20);
+  return res.status(200).send({ success: true, products });
+};
+
 //
 //
 //
@@ -112,6 +120,7 @@ const getProducts = async (req, res) => {
 router.post("/user/signup", tryCatch(handleCustomerSignUp));
 router.post("/user/login", tryCatch(handleCustomerLogin));
 router.get("/products", tryCatch(getProducts));
+router.post("/products/query", tryCatch(getProductsFromQuery));
 router.get("/dashboard", restrictToCustomerOnly, tryCatch(getCustomerDashboardData));
 router.post("/orders/new", restrictToCustomerOnly, tryCatch(createCustomerOrderHistory));
 router.get("/orders", restrictToCustomerOnly, tryCatch(getCustomerOrderHistory));

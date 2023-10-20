@@ -50,7 +50,7 @@ function cosineSimilarity(text1, text2) {
   return cosineSimilarity;
 }
 
-function relevancyListFromQuery(userQuery) {
+export const relevancyListFromQuery = async (userQuery, items) => {
   const similarityThreshold = 3;
   const jsonData = fs.readFileSync(
     "C:/Users/chanp/OneDrive/Desktop/Projects/React/amazon-hackon/backend/dataset.json",
@@ -67,8 +67,8 @@ function relevancyListFromQuery(userQuery) {
     const productRating = entry.rating.toString();
 
     let weightedSimilarity = 0.0;
-    weightedSimilarity += cosineSimilarity(userQuery, productTitle) * 8;
-    weightedSimilarity += cosineSimilarity(userQuery, productBrand) * 10;
+    weightedSimilarity += cosineSimilarity(userQuery, productTitle) * 30;
+    weightedSimilarity += cosineSimilarity(userQuery, productBrand) * 6;
     weightedSimilarity += cosineSimilarity(userQuery, productDescription) * 50;
     weightedSimilarity += cosineSimilarity(userQuery, productPrice) * 15;
     weightedSimilarity += cosineSimilarity(userQuery, productRating) * 20;
@@ -81,10 +81,10 @@ function relevancyListFromQuery(userQuery) {
   const sortedResults = relevantProducts
     .sort((a, b) => b.weightedSimilarity - a.weightedSimilarity)
     .map((entry) => entry.entry)
-    .slice(0, 10);
+    .slice(0, items);
 
   return sortedResults;
-}
+};
 const getResponseFromQuery = async (req, res, next) => {
   const data = req.body;
   const query = data.query;
@@ -119,11 +119,10 @@ const getResponseFromQuery = async (req, res, next) => {
     ],
   });
   let content = response.choices[0].message.content;
-  console.log(content);
   if (content.includes("|||")) {
     const [acknowledgement, reducedQuery] = await content.split("|||").map((part) => part.trim());
     content = acknowledgement;
-    const sortedJsonResults = relevancyListFromQuery(reducedQuery);
+    const sortedJsonResults = relevancyListFromQuery(reducedQuery, 10);
     return res.status(200).send({ success: true, content, result: sortedJsonResults });
   } else {
     return res.status(200).send({ success: true, content, result: [] });

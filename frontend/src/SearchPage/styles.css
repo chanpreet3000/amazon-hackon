@@ -1,0 +1,13 @@
+.search-page{
+    margin: 1rem;
+    margin-top: 4rem;
+}
+.search-page .product-list {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.1rem;
+  }
+  
