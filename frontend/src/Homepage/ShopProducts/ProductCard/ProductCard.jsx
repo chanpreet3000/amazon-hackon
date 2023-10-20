@@ -3,29 +3,26 @@ import "./styles.css";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import { Link } from "react-router-dom";
 export default function ProductCard({ data }) {
-  const dateFormatter = new Intl.DateTimeFormat("en", { day: "numeric", month: "short", year: "numeric" });
-  const formattedDate = dateFormatter.format(new Date(data.createdAt));
-
   return (
-    <Link to={`/products/${data._id}`} className="product">
+    <Link to={`/`} className="product">
       <div className="image">
         <img src={data.image} draggable={false} />
       </div>
       <div className="container">
         <div className="title">
-          <div>{data.name}</div>
-          <div className="row">
-            <div>₹{data.price}</div>
-            <img
-              src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png"
-              className="fassured"
-            />
-          </div>
+          <div>{data.title}</div>
+          <img className="prime" src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Prime_logo.png"></img>
+        </div>
+        <div className="rating">
+          <strong>Rating : {data.rating}/5</strong>
+        </div>
+        <div className="price">
+          <strong>₹{data.price}</strong>
         </div>
         <div className="description">{data.description}</div>
         <div className="description">{data.specifications}</div>
         <div className="date">
-          Sold by <strong>{data.retailerName}</strong> on <strong>{formattedDate}</strong>
+          Sold by <strong>{data.title}</strong>
         </div>
         <InsertLinkIcon className="link" />
       </div>

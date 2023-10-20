@@ -9,6 +9,7 @@ import OrderHistory from "../models/OrderHistory.model.js";
 import { tryCatch } from "../util.js";
 const JWT_KEY = process.env.JWT_KEY;
 const customerToken = "customerToken";
+import fs from "fs";
 //
 //
 //
@@ -84,7 +85,25 @@ const getCustomerOrderHistory = async (req, res) => {
   return res.status(200).send({ success: true, orders });
 };
 
-const getProducts = async (req, res) => {};
+const getProducts = async (req, res) => {
+  async function getRandomItems(data, count) {
+    const randomItems = [];
+    const maxIndex = data.length;
+
+    for (let i = 0; i < count; i++) {
+      const randomIndex = Math.floor(Math.random() * maxIndex);
+      randomItems.push(data[randomIndex]);
+    }
+
+    return randomItems;
+  }
+  const rawData = fs.readFileSync("C:/Users/chanp/OneDrive/Desktop/Projects/React/amazon-hackon/backend/dataset.json");
+  const dataset = JSON.parse(rawData);
+
+  const products = await getRandomItems(dataset, 10);
+  return res.status(200).send({ success: true, products });
+};
+
 //
 //
 //

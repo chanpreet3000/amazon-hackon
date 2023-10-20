@@ -1,30 +1,30 @@
 .product {
   display: flex;
   flex-direction: row;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   width: 100%;
-  box-shadow: 0px 0px 3px 3px #cccccc4a;
+  box-shadow: 0px 0px 1px 1px #cccccc4a;
   overflow: hidden;
   cursor: pointer;
-  transition: all 100ms;
   gap: 2rem;
   position: relative;
   padding: 1rem;
   text-decoration: none;
   color: black;
 }
-.product:hover {
-  transform: scale(1.02);
-}
 .product .image {
-  width: 250px;
+  width: 200px;
   overflow: hidden;
-  height: auto;
+  height: 200px;
+}
+.product .prime {
+  width: 50px;
 }
 
 .product .image > img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain;
 }
 .product .container {
   width: 100%;
@@ -40,12 +40,21 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  font-weight: bold;
+  font-size: 22px;
+  margin-bottom: 1rem;
+}
+.product .price {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   font-size: 22px;
   margin-bottom: 1rem;
 }
 .product .description {
   max-height: 75px;
+  max-width: 800px;
   text-overflow: ellipsis;
 }
 .product .date {
