@@ -52,7 +52,10 @@ function cosineSimilarity(text1, text2) {
 
 function relevancyListFromQuery(userQuery) {
   const similarityThreshold = 3;
-  const jsonData = fs.readFileSync("C:/Users/chanp/OneDrive/Desktop/Projects/React/amazon-hackon/backend/phone_dataset.json", "utf-8");
+  const jsonData = fs.readFileSync(
+    "C:/Users/chanp/OneDrive/Desktop/Projects/React/amazon-hackon/backend/dataset.json",
+    "utf-8"
+  );
   const jsonDatabase = JSON.parse(jsonData);
 
   const relevantProducts = [];
