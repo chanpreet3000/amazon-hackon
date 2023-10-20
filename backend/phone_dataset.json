@@ -1,0 +1,202 @@
+[
+  {
+    "brand": "Samsung",
+    "title": "Samsung Galaxy S5, G900P 16GB White - Sprint",
+    "image": "https://m.media-amazon.com/images/I/81CKMjxseIL._AC_UY218_ML3_.jpg",
+    "rating": 3.7,
+    "price": 21599.2,
+    "description": "The Samsung Galaxy S5, G900P, in White, is a Sprint smartphone with a 16GB storage capacity. It features a 5.1-inch display, a 10MP camera, and supports 4G LTE. This device offers a great balance of performance and functionality."
+  },
+  {
+    "brand": "Samsung",
+    "title": "Samsung Galaxy S4 16GB SPH-L720 4G LTE Android - Sprint (Blue)",
+    "image": "https://m.media-amazon.com/images/I/61Uy8S7wD9L._AC_UY218_ML3_.jpg",
+    "rating": 3.3,
+    "price": 0,
+    "description": "The Samsung Galaxy S4 SPH-L720 is a 16GB Android smartphone designed for Sprint. While it's an older model, it still offers 4G LTE support and a 13MP camera. Please note that this device is available without a listed price."
+  },
+  {
+    "brand": "Motorola",
+    "title": "Motorola Droid Ultra XT1080 16GB 4G LTE Android Smartphone W/ 10MP Camera - Black",
+    "image": "https://m.media-amazon.com/images/I/81p5bS9i6dL._AC_UY218_ML3_.jpg",
+    "rating": 3.5,
+    "price": 19999.2,
+    "description": "The Motorola Droid Ultra XT1080 is a 4G LTE Android smartphone with 16GB of storage. It comes with a 10MP camera and offers excellent performance. The device is perfect for those who need a reliable smartphone with good camera capabilities."
+  },
+  {
+    "brand": "Motorola",
+    "title": "Moto G - Verizon Prepaid Phone (Verizon Prepaid Only)",
+    "image": "https://m.media-amazon.com/images/I/81VuPb8-arL._AC_UY218_ML3_.jpg",
+    "rating": 4,
+    "price": 5199.2,
+    "description": "The Moto G is a Verizon prepaid phone, designed for use with Verizon Prepaid services. It offers great value for money with good features, including a 4G LTE connection and decent camera capabilities. This device is perfect for those who want an affordable yet capable smartphone."
+  },
+  {
+    "brand": "Nokia",
+    "title": "Nokia Lumia Icon, Black 32GB (Verizon Wireless)",
+    "image": "https://m.media-amazon.com/images/I/51W3p2zTv9L._AC_UY218_ML3_.jpg",
+    "rating": 3.8,
+    "price": 18696.8,
+    "description": "The Nokia Lumia Icon in Black offers a 32GB storage capacity and is designed for use with Verizon Wireless. It features a 5-inch display, a 20MP PureView camera, and 4G LTE support. This device is perfect for photography enthusiasts and those seeking a reliable Windows smartphone."
+  },
+  {
+    "brand": "Nokia",
+    "title": "Nokia Lumia 928 32GB Unlocked GSM 4G LTE Windows 8 Smartphone - White",
+    "image": "https://m.media-amazon.com/images/I/51YIDTWEWDL._AC_UY218_ML3_.jpg",
+    "rating": 3.5,
+    "price": 12799.2,
+    "description": "The Nokia Lumia 928 is a 32GB unlocked GSM smartphone with 4G LTE support. It runs Windows 8 and features a 4.5-inch display and an 8.7MP camera. This device is perfect for those who prefer Windows-based smartphones and want to use it with any GSM carrier."
+  },
+  {
+    "brand": "Samsung",
+    "title": "Samsung Galaxy S4 M919 16GB T-Mobile 4G LTE Smartphone - Black Mist",
+    "image": "https://m.media-amazon.com/images/I/51hnjqGbVqL._AC_UY218_ML3_.jpg",
+    "rating": 3.7,
+    "price": 18399.2,
+    "description": "The Samsung Galaxy S4 M919 is a 16GB T-Mobile smartphone with 4G LTE support. It features a 5-inch display and a 13MP camera. This device is ideal for those looking for a T-Mobile compatible smartphone with good camera capabilities."
+  },
+  {
+    "brand": "Nokia",
+    "title": "Nokia Lumia 925, Black 16GB (AT&T)",
+    "image": "https://m.media-amazon.com/images/I/81buw9ag-VL._AC_UY218_ML3_.jpg",
+    "rating": 2.7,
+    "price": 4399.2,
+    "description": "The Nokia Lumia 925 is a 16GB smartphone designed for use with AT&T. It runs Windows and features a 4.5-inch display and an 8.7MP camera. This device is perfect for those who prefer Windows smartphones and AT&T service."
+  },
+  {
+    "brand": "Sony",
+    "title": "Sony Xperia Z2 - Unlocked (White)",
+    "image": "https://m.media-amazon.com/images/I/41ATwBsWGbL._AC_UY218_ML3_.jpg",
+    "rating": 3.2,
+    "price": 48504,
+    "description": "The Sony Xperia Z2 in White is an unlocked smartphone with a stunning design. It offers high-end features, including a 20.7MP camera, a 5.2-inch display, and a powerful processor. This device is ideal for those who want a premium Android smartphone."
+  },
+  {
+    "brand": "Motorola",
+    "title": "Motorola Moto G (2nd generation) Unlocked Cellphone, 8GB, Black",
+    "image": "https://m.media-amazon.com/images/I/61OLIW5q0eL._AC_UY218_ML3_.jpg",
+    "rating": 4.1,
+    "price": 7920,
+    "description": "The Motorola Moto G (2nd generation) is an unlocked cellphone with 8GB of storage. It offers a great Android experience with a 4.5-inch display and a 2nd-gen 1.2GHz quad-core processor. This device is perfect for those looking for a budget-friendly unlocked smartphone."
+  },
+  {
+    "brand": "Motorola",
+    "title": "Motorola Moto X (2nd generation) XT1097 GSM Unlocked Cellphone, 16GB, Black Soft Touch",
+    "image": "https://m.media-amazon.com/images/I/81HfPVitlfL._AC_UY218_ML3_.jpg",
+    "rating": 3.5,
+    "price": 34240,
+    "description": "The Motorola Moto X (2nd generation) XT1097 is a GSM unlocked cellphone with 16GB of storage. It features a 5.2-inch display and is known for its customizable design options. This device is perfect for those who want an unlocked Moto X with ample storage."
+  },
+  {
+    "brand": "Samsung",
+    "title": "Samsung Galaxy Alpha, Frosted Gold 32GB (AT&T)",
+    "image": "https://m.media-amazon.com/images/I/81IpIT71b7L._AC_UY218_ML3_.jpg",
+    "rating": 3.1,
+    "price": 9040,
+    "description": "The Samsung Galaxy Alpha in Frosted Gold is a 32GB smartphone designed for use with AT&T. It features a sleek design, a 4.7-inch display, and a 12MP camera. This device is perfect for those who want a stylish and compact smartphone."
+  },
+  {
+    "brand": "Samsung",
+    "title": "Samsung Galaxy Mega 2, Brown Black 16GB (AT&T)",
+    "image": "https://m.media-amazon.com/images/I/81+3p0WndhL._AC_UY218_ML3_.jpg",
+    "rating": 3.2,
+    "price": 8480,
+    "description": "The Samsung Galaxy Mega 2 in Brown Black is a 16GB smartphone designed for use with AT&T. It boasts a massive 6-inch display, making it perfect for multimedia and entertainment. This device is ideal for those who prefer larger-screen smartphones."
+  },
+  {
+    "brand": "Samsung",
+    "title": "Samsung Galaxy Note 4, Frosted White 32GB (Sprint)",
+    "image": "https://m.media-amazon.com/images/I/A1S4AmmN0pL._AC_UY218_ML3_.jpg",
+    "rating": 3.2,
+    "price": 20798.4,
+    "description": "The Samsung Galaxy Note 4 in Frosted White is a 32GB Sprint smartphone. It features a large 5.7-inch display, an impressive 16MP camera, and the iconic S Pen stylus. This device is perfect for productivity and creativity on the go."
+  },
+  {
+    "brand": "Motorola",
+    "title": "Motorola Moto X - 2nd Generation, Black Resin 16GB (Verizon Wireless)",
+    "image": "https://m.media-amazon.com/images/I/81UpiOZp47L._AC_UY218_ML3_.jpg",
+    "rating": 3.9,
+    "price": 0,
+    "description": "The Motorola Moto X (2nd generation) is a Verizon Wireless smartphone with 16GB of storage. It features a 5.2-inch display, customizable design options, and a 13MP camera. Please note that this device is available without a listed price."
+  },
+  {
+    "brand": "Nokia",
+    "title": "Nokia Lumia 530 White - No Contract (T-Mobile)",
+    "image": "https://m.media-amazon.com/images/I/81ba7gOGt5L._AC_UY218_ML3_.jpg",
+    "rating": 3.2,
+    "price": 10662.4,
+    "description": "The Nokia Lumia 530 in White is a no-contract smartphone designed for use with T-Mobile. It offers a budget-friendly option for those seeking a Windows Phone experience. This device is perfect for those who want a no-contract, affordable smartphone."
+  },
+  {
+    "brand": "Samsung",
+    "title": "Samsung Galaxy S4 SGH-I337 USA GSM Unlocked Cellphone, 16GB, Frost White",
+    "image": "https://m.media-amazon.com/images/I/81suaO+v0mL._AC_UY218_ML3_.jpg",
+    "rating": 2.8,
+    "price": 12397.6,
+    "description": "The Samsung Galaxy S4 SGH-I337 is a USA GSM unlocked cellphone with 16GB of storage. It features a 5-inch display, a 13MP camera, and a fast quad-core processor. This device is ideal for those looking for an unlocked Galaxy S4."
+  },
+  {
+    "brand": "Motorola",
+    "title": "Verizon 4G LTE Moto Luge by Motorola Prepaid Smartphone",
+    "image": "https://m.media-amazon.com/images/I/612FFO+p-3L._AC_UY218_ML3_.jpg",
+    "rating": 3.1,
+    "price": 5998.4,
+    "description": "The Verizon 4G LTE Moto Luge is a prepaid smartphone by Motorola. It offers 4G LTE connectivity and a range of features for budget-conscious users. This device is perfect for those looking for a prepaid Verizon smartphone."
+  },
+  {
+    "brand": "Samsung",
+    "title": "Samsung Galaxy Note 3 N900A 32GB Unlocked GSM Octa-Core Smartphone w/ 13MP Camera - Black",
+    "image": "https://m.media-amazon.com/images/I/91Q7P86ef5L._AC_UY218_ML3_.jpg",
+    "rating": 3.6,
+    "price": 15520,
+    "description": "The Samsung Galaxy Note 3 N900A is an unlocked GSM smartphone with 32GB of storage. It features a 5.7-inch display, an octa-core processor, and a powerful 13MP camera. This device is perfect for multitasking and creative tasks."
+  },
+  {
+    "brand": "Motorola",
+    "title": "Motorola DROID Turbo XT1254, Black Ballistic Nylon 32GB (Verizon Wireless)",
+    "image": "https://m.media-amazon.com/images/I/81VMO0UpxfL._AC_UY218_ML3_.jpg",
+    "rating": 3.6,
+    "price": 11999.2,
+    "description": "The Motorola DROID Turbo XT1254 is a Verizon Wireless smartphone with 32GB of storage. It features a durable black ballistic nylon design, a powerful processor, and long battery life. This device is perfect for those who need a reliable and robust smartphone."
+  },
+  {
+    "brand": "Nokia",
+    "title": "Nokia Lumia 630 Windows Prepaid SmartPhone, Carrier Locked to Cricket Wireless, No Contract",
+    "image": "https://m.media-amazon.com/images/I/51wHAncQp5L._AC_UY218_ML3_.jpg",
+    "rating": 3.3,
+    "price": 10399.2,
+    "description": "The Nokia Lumia 630 is a Windows prepaid smartphone, carrier locked to Cricket Wireless. It offers a 4.5-inch display and a variety of features at an affordable price. This device is perfect for those looking for a no-contract Windows Phone option."
+  },
+  {
+    "brand": "Sony",
+    "title": "Sony Experia Z3+ 4G LTE Unlocked 32GB Octa Core 3GB RAM E6553 (LTE USA Latin Caribbean Europe) Water...",
+    "image": "https://m.media-amazon.com/images/i/71iFTB59LEL._AC_UY218_ML3_.jpg",
+    "rating": 3,
+    "price": 11592,
+    "description": "The Sony Xperia Z3+ is an unlocked smartphone with 4G LTE support. It offers a powerful octa-core processor, 3GB of RAM, and a 32GB storage capacity. This device is perfect for those looking for a high-performance, unlocked Xperia phone."
+  },
+  {
+    "brand": "Samsung",
+    "title": "Samsung Galaxy S6 G920T 32GB Unlocked GSM 4G LTE Octa-Core Android Smartphone w/ 16MP Camera - Black",
+    "image": "https://m.media-amazon.com/images/i/81cvwVzNoiL._AC_UY218_ML3_.jpg",
+    "rating": 3.3,
+    "price": 0,
+    "description": "The Samsung Galaxy S6 G920T is a 32GB unlocked GSM smartphone with a powerful octa-core processor and a 16MP camera. Please note that this device is available without a listed price."
+  },
+  {
+    "brand": "Sony",
+    "title": "Sony Xperia Z3 Plus E6533 32GB Black 3G/4G, Dual SIM Unlocked Factory 4G LTE - International Version...",
+    "image": "https://m.media-amazon.com/images/i/41+xyOdkmiL._AC_UY218_ML3_.jpg",
+    "rating": 3.1,
+    "price": 0,
+    "description": "The Sony Xperia Z3 Plus E6533 is an international version of the Xperia Z3+. It's a dual SIM unlocked smartphone with 32GB of storage and 3G/4G capabilities. Please note that this device is available without a listed price."
+  },
+  {
+    "brand": "Samsung",
+    "title": "Samsung Galaxy S6 Edge+, Black 64GB (Sprint)",
+    "image": "https://m.media-amazon.com/images/i/81h0cGu5OcL._AC_UY218_ML3_.jpg",
+    "rating": 3.9,
+    "price": 17599.2,
+    "description": "The Samsung Galaxy S6 Edge+ is a Sprint smartphone with 64GB of storage. It features a unique curved display and powerful performance with a 16MP camera. This device is perfect for those who want a premium Sprint smartphone with a distinctive design."
+  }
+]

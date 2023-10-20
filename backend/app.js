@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import { errorHandler } from "./util.js";
 import customerRouter from "./routes/customer.js";
+import queryRouter from "./routes/query.js";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(cookieParser());
 
 //Routes
 app.use("/api/customer", customerRouter);
+app.use("/api/query", queryRouter);
 
 // Error handler
 app.use(errorHandler);
