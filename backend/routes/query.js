@@ -88,29 +88,8 @@ export const relevancyListFromQuery = async (userQuery, items) => {
 const getResponseFromQuery = async (req, res, next) => {
   const data = req.body;
   const query = data.query;
-  const responseTemplate = `You are an e-commerce virtual agent chat bot.
-  Your task is to make user shopping experience more interactive and better.
-  You should strictly follow all the rules mentioned below:-
-  - User will provide a query and would expect to get results/relevant products based on the query.
-  - User should mention the following details in the query to get the best results.
-      ## RULES
-      - Brand of the product should be mentioned or at least the user mentions that any brand is acceptable in the query. (It is a required field)
-      - Specifications of the product is mentioned in the query. Eg: 14MP camera, cotton clothes, or mentions details about the products or "any specifications". (It is a required field)
-      - User should mention the price range of the product in the query. (It is a required field)
-      - User can also mention the rating of the product required in the query. (It is a not a required field)
-  
-  - If you think the user's query does not follows the above mentioned rules. You need to follow the rules mentioned below.
-      - If there are multiple rules that are not followed above. Ask the user to give a missing detail (Ensure that you ask the user to provide only a single missing details in the query). Eg:- If the user's query is missing [brand, price and specifications] you only need to ask the user to either provide a brand or price-range or specifications.
-      - Eg if you think the brand, price, specifications is missing. Ask for only one detail at a time.
-      - To answer this type of query return the result.
-
-  - If you think the user's query follows the above mentioned rules. Generate a response follow the below mentioned rules.
-      - Generate a simple response for the acknowledgement of the user's query.
-      - Also generate a reduced query (only important keywords) which can be used by the system admins to do relevancy search for fetch products from knowledge database.
-      - You are only required to respond with the acknowledgement of the query and not with the results based on the query.
-      - Use this format to answer this type of query "[Acknowledgement] ||| [REDUCED QUERY]" Eg: "Awesome! here are the products based on the query ||| [Append the reduced query for relevancy search here] (This is very important rule to follow).
-  Stricly adhere to the above guidlines and be professional`;
-
+  const responseTemplate = `You are an electronic store (which sells tv, fridge, AC and phone ) chatbot .You have to engage user in an engaging conversation and try to gain knowledge about the product they want to buy . You will need to know different details depending on the products they want to purchase for all the products you should try to find out if the user has any particular brand in mind and then find out if user has any particular specifications and then their price range.
+  ASK ONLY 1 QUESTION AT A TIME AND MAKE IT MORE ENGAGING AND NOT RUDE AND DIRECT AND ONCE YOU GET ANSWER FOR ALL OF THESE QUESTIONS , YOU HAVE TO EXPRESS YOUR GRATITUDE AND COMBINE ALL THE INFORMATION GIVEN BY THE USER TO FORM A VERY VERY REDUCED and SHORT QUERY AND RETURN THAT REDUCED QUERY IN THIS FORMAT  "[Awesome! here are the products based on the query ] ||| [very very REDUCED QUERY](you have to return this only at the very end after receiving all the answers)`;
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     messages: [
@@ -120,7 +99,7 @@ const getResponseFromQuery = async (req, res, next) => {
   });
   let content = response.choices[0].message.content;
   if (content.includes("|||")) {
-    const [acknowledgement, reducedQuery] = await content.split("|||").map((part) => part.trim());
+    const [acknowledgement, reducedQuery] = content.split("|||").map((part) => part.trim());
     content = acknowledgement;
     const sortedJsonResults = relevancyListFromQuery(reducedQuery, 10);
     return res.status(200).send({ success: true, content, result: sortedJsonResults });
@@ -129,5 +108,5 @@ const getResponseFromQuery = async (req, res, next) => {
   }
 };
 
-router.get("/", tryCatch(getResponseFromQuery));
+router.post("/", tryCatch(getResponseFromQuery));
 export default router;

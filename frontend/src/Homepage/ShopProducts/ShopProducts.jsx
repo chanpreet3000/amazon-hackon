@@ -18,8 +18,8 @@ export default function ShopProducts() {
     <div className="shop-products">
       <h1>Shop Electronics</h1>
       <div className="product-list">
-        {products.map((product) => {
-          return <ProductCard data={product} key={product._id} />;
+        {products.map((product, ind) => {
+          return <ProductCard data={product} key={ind} />;
         })}
       </div>
     </div>
