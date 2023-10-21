@@ -10,15 +10,11 @@ export default function SearchPage() {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      await axiosInstance
-        .post("/api/customer/products/query", {
-          query: query,
-        })
-        .then((response) => {
-          setProducts(response.data.products);
-        });
+      const response = await axiosInstance.post("/api/customer/products/query", {
+        query: query,
+      });
+      setProducts(response.data.products);
     };
-
     fetchData();
   }, [query]);
 

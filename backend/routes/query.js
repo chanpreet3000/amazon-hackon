@@ -4,105 +4,109 @@ dotenv.config();
 const router = express.Router();
 
 import OpenAI from "openai";
-import fs from "fs";
 import { tryCatch } from "../util.js";
+
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { HNSWLib } from "langchain/vectorstores/hnswlib";
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { CSVLoader } from "langchain/document_loaders/fs/csv";
+import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Function to preprocess text
-function preprocessText(text) {
-  text = text.toLowerCase();
-  text = text.replace(/[^a-z\s]/g, "");
-  const tokens = text.split(/\s+/);
-  // Remove common stop words (you can add more to this list)
-  const stopWords = new Set(["the", "a", "an", "in", "on", "at", "for", "to", "and"]);
-  const filteredTokens = tokens.filter((token) => !stopWords.has(token));
-  return filteredTokens;
-}
-
-// Calculate the cosine similarity between two texts
-function cosineSimilarity(text1, text2) {
-  const tokens1 = preprocessText(text1);
-  const tokens2 = preprocessText(text2);
-
-  // Create a vocabulary from both texts
-  const vocab = new Set([...tokens1, ...tokens2]);
-
-  // Create one-hot encoded vectors for each text
-  const vector1 = [...vocab].map((word) => tokens1.filter((token) => token === word).length);
-  const vector2 = [...vocab].map((word) => tokens2.filter((token) => token === word).length);
-
-  // Calculate the dot product of the vectors
-  const dotProduct = vector1.reduce((acc, val, idx) => acc + val * vector2[idx], 0);
-
-  // Calculate the norms of the vectors
-  const norm1 = Math.sqrt(vector1.reduce((acc, val) => acc + val * val, 0));
-  const norm2 = Math.sqrt(vector2.reduce((acc, val) => acc + val * val, 0));
-
-  // Calculate the cosine similarity
-  if (norm1 * norm2 === 0) {
-    return 0.0; // Handle division by zero
-  }
-
-  const cosineSimilarity = dotProduct / (norm1 * norm2);
-  return cosineSimilarity;
-}
+const loader = new DirectoryLoader("./docs", {
+  ".csv": (path) => new CSVLoader(path, ["title", "rating", "price", "image", "description", "brand"]),
+});
+var documents = await loader.load();
+var textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
+var texts = await textSplitter.splitDocuments(documents);
+var embeddings = new OpenAIEmbeddings();
+var vectordb = await HNSWLib.fromDocuments(texts, embeddings, { numDimensions: 1536 });
 
 export const relevancyListFromQuery = async (userQuery, items) => {
-  const similarityThreshold = 3;
-  const jsonData = fs.readFileSync(
-    "C:/Users/chanp/OneDrive/Desktop/Projects/React/amazon-hackon/backend/dataset.json",
-    "utf-8"
-  );
-  const jsonDatabase = JSON.parse(jsonData);
+  const retriever = vectordb.asRetriever({ k: items });
+  var docs = await retriever.getRelevantDocuments(userQuery);
+  var sortedJsonResults = [];
 
-  const relevantProducts = [];
-  for (const entry of jsonDatabase) {
-    const productTitle = entry.title;
-    const productBrand = entry.brand;
-    const productDescription = entry.description;
-    const productPrice = entry.price.toString();
-    const productRating = entry.rating.toString();
+  docs.forEach((ele) => {
+    var arr = ele.pageContent.split("\n");
+    var obj = {};
+    arr.forEach((el) => {
+      var val = el.split(":");
+      if (val[0] == "image") {
+        obj[val[0]] = (val[1] + ":" + val[2]).trim();
+      } else {
+        obj[val[0]] = val[1].trim();
+      }
+    });
+    sortedJsonResults.push(obj);
+  });
 
-    let weightedSimilarity = 0.0;
-    weightedSimilarity += cosineSimilarity(userQuery, productTitle) * 30;
-    weightedSimilarity += cosineSimilarity(userQuery, productBrand) * 6;
-    weightedSimilarity += cosineSimilarity(userQuery, productDescription) * 50;
-    weightedSimilarity += cosineSimilarity(userQuery, productPrice) * 15;
-    weightedSimilarity += cosineSimilarity(userQuery, productRating) * 20;
+  return sortedJsonResults;
+};
 
-    if (weightedSimilarity > similarityThreshold) {
-      relevantProducts.push({ entry, weightedSimilarity });
+const getMessagesList = (prompt, query) => {
+  var messages = [];
+  messages.push({ role: "system", content: prompt });
+  query.forEach((element) => {
+    if (element.system === true) {
+      messages.push({ role: element.role, content: element.message });
+    } else {
+      messages.push({ role: element.role, content: element.message });
     }
-  }
-
-  const sortedResults = relevantProducts
-    .sort((a, b) => b.weightedSimilarity - a.weightedSimilarity)
-    .map((entry) => entry.entry)
-    .slice(0, items);
-
-  return sortedResults;
+  });
+  return messages;
 };
 const getResponseFromQuery = async (req, res, next) => {
   const data = req.body;
   const query = data.query;
-  const responseTemplate = `You are an electronic store (which sells tv, fridge, AC and phone ) chatbot .You have to engage user in an engaging conversation and try to gain knowledge about the product they want to buy . You will need to know different details depending on the products they want to purchase for all the products you should try to find out if the user has any particular brand in mind and then find out if user has any particular specifications and then their price range.
-  ASK ONLY 1 QUESTION AT A TIME AND MAKE IT MORE ENGAGING AND NOT RUDE AND DIRECT AND ONCE YOU GET ANSWER FOR ALL OF THESE QUESTIONS , YOU HAVE TO EXPRESS YOUR GRATITUDE AND COMBINE ALL THE INFORMATION GIVEN BY THE USER TO FORM A VERY VERY REDUCED and SHORT QUERY AND RETURN THAT REDUCED QUERY IN THIS FORMAT  "[Awesome! here are the products based on the query ] ||| [very very REDUCED QUERY](you have to return this only at the very end after receiving all the answers)`;
+  console.log(query);
+  const prompt = `Hello, AI! I'm a salesman at a huge e-commerce platform called Amazon, which sells electronics like televisions, phones, air conditioners and many other electronics. I need your help to manage my conversations on our e-commerce website as a chatbot. You'll be stepping in for me, simulating my personality and communication style. Be concise and direct in your messages ensuring not to make responses long.
+
+  Here are some specific details and directions to guide the conversation:
+  1. Tone: My tone is generally light-hearted but sincere when the situation calls for it.
+  2. Slangs: Feel free to use some text slang, but nothing too crazy. A balance between formal and informal conversation is key.
+  3. Chatbot's Approach: Maintain a casual and friendly tone. The goal is to keep the conversation engaging and interesting. You have to engage users in conversation and try to gain knowledge about the product they want to buy.
+  4. Goal: Your goal is to have a conversation with the user about their product need, as get to know about their product's requirements such as brand, specifications and then the price range.
+  5. Input: You will be given a query in the form of a list of conversations between the salesman and the user.
+  E.g.: "Salesman: What type of product would you like to have? User: I want to buy a phone."
+
+  From the conversations between the salesman and the user generate a response from **ONLY ONE** of following situations:-
+  a. If from the conversations the brand of the product is missing, generate a response asking the user for their preferred brand.
+  b. If from the conversations the specifications of the product are missing, generate a response asking the user for the preferred specifications.
+  c. If from the conversations the price range of the product is missing, generate a response asking the user for the preferred price range.
+  d. If from the conversations the user has mentioned the brand, specifications and price range for their product use **ALL OF THE** below-mentioned steps to generate a response:-
+    i. YOUR RESPONSE MUST BE OF FORMAT "[ACKNOWLEDGEMENT] ||| [REDUCED_QUERY]". For [ACKNOWLEDGEMENT] you should generate a response similar to this eg: "Great! Here are some products based on the query". Try to make it interesting and add context based on the product specifications. For [REDUCED_QUERY], your response should only contain keywords from the user\'s preferred product brand, specifications and price range, which are good enough for a relevant search in Amazon\'s product database.
+    ii. In the response you should not mention any product name based on the conversations and query. You only need to generate a response with acknowledgement and reduced query seperated using |||.
+    iii. Here is an example of the response that should be generated after following above-mentioned steps: "Great! here are some Samsung phones with good cameras and under 20,000 ||| Samsung phone good camera under 20,000"`;
+  //
+  //
+  //
+
+  var messagesList = getMessagesList(prompt, query);
+  messagesList = [
+    ...messagesList,
+    {
+      role: "system",
+      content:
+        "Respond to the query and follow the rules. Don't forget the seperator and reduced query when all details are present.",
+    },
+  ];
+  console.log(messagesList);
+
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
-    messages: [
-      { role: "system", content: responseTemplate },
-      { role: "user", content: `Give me products based on this query: ${query}` },
-    ],
+    messages: messagesList,
   });
+
   let content = response.choices[0].message.content;
+  console.log(content);
   if (content.includes("|||")) {
     const [acknowledgement, reducedQuery] = content.split("|||").map((part) => part.trim());
-    content = acknowledgement;
-    const sortedJsonResults = relevancyListFromQuery(reducedQuery, 10);
-    return res.status(200).send({ success: true, content, result: sortedJsonResults });
+    const sortedJsonResults = await relevancyListFromQuery(reducedQuery, 5);
+    return res.status(200).send({ success: true, content: acknowledgement, result: sortedJsonResults });
   } else {
     return res.status(200).send({ success: true, content, result: [] });
   }

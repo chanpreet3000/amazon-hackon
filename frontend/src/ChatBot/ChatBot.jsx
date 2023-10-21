@@ -10,8 +10,8 @@ export default function ChatBot() {
 
   useEffect(() => {
     setAllChats([
-      { system: true, message: "Hi! I'm Amazon's new interactive chat bot." },
-      { system: true, message: "How can I help you today?" },
+      { role: "assistant", message: "Hi! I'm Amazon's new interactive chat bot." },
+      { role: "assistant", message: "How can I help you today?" },
     ]);
   }, []);
 
@@ -19,26 +19,36 @@ export default function ChatBot() {
     setDiv1Visible(!div1Visible);
   };
 
+  useEffect(() => {
+    console.log(allChats);
+  }, [allChats]);
+
+  
   const userEnteredQuery = async () => {
     if (searchInput === "") return;
-    const updatedChats = [...allChats, { system: false, message: searchInput }];
+    const updatedChats = [...allChats, { role: "user", message: searchInput }];
     setAllChats(updatedChats);
     setSearchInput("");
 
-    var query = "";
-    updatedChats.forEach((element) => {
-      if (element.system === false) {
-        query += element.message + ". ";
-      }
-    });
+    const tempChats = structuredClone(updatedChats);
 
-    updatedChats.push({ system: true, message: "..." });
+    updatedChats.push({ role: "assistant", message: "..." });
     setAllChats(updatedChats);
-    const response = await axiosInstance.post("/api/query/", { query });
+
+    const response = await axiosInstance.post("/api/query/", { query: tempChats });
     const content = response.data.content;
     const result = response.data.result;
     updatedChats.pop();
-    setAllChats([...updatedChats, { system: true, message: content }]);
+
+    if (result.length === 0) {
+      setAllChats([...updatedChats, { role: "assistant", message: content }]);
+    } else {
+      setAllChats([
+        ...updatedChats,
+        { role: "assistant", message: content },
+        { role: "products-list", message: result },
+      ]);
+    }
     console.log(result);
   };
 
