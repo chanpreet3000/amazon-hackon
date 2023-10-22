@@ -1,19 +1,12 @@
-import React, { useEffect, useState } from "react";
 import "./styles.css";
+import React, { useEffect, useState } from "react";
 import ChatItem from "./ChatItem";
 import { axiosInstance } from "../axios";
 
-export default function ChatBot() {
+export default function ChatBot({ apiUrl, initialMessages }) {
   const [div1Visible, setDiv1Visible] = useState(true);
-  const [allChats, setAllChats] = useState([]);
+  const [allChats, setAllChats] = useState(initialMessages);
   const [searchInput, setSearchInput] = useState([]);
-
-  useEffect(() => {
-    setAllChats([
-      { role: "assistant", message: "Hi! I'm Amazon's new interactive chat bot." },
-      { role: "assistant", message: "How can I help you today?" },
-    ]);
-  }, []);
 
   const toggleDivVisibility = () => {
     setDiv1Visible(!div1Visible);
@@ -21,9 +14,14 @@ export default function ChatBot() {
 
   useEffect(() => {
     console.log(allChats);
+    scrollSmoothlyToBottom("chat-wrapper");
   }, [allChats]);
 
-  
+  const scrollSmoothlyToBottom = (id) => {
+    const element = document.getElementById(id);
+    element.scrollTop = element.scrollHeight;
+  };
+
   const userEnteredQuery = async () => {
     if (searchInput === "") return;
     const updatedChats = [...allChats, { role: "user", message: searchInput }];
@@ -35,21 +33,12 @@ export default function ChatBot() {
     updatedChats.push({ role: "assistant", message: "..." });
     setAllChats(updatedChats);
 
-    const response = await axiosInstance.post("/api/query/", { query: tempChats });
+    const response = await axiosInstance.post(apiUrl, { query: tempChats });
     const content = response.data.content;
     const result = response.data.result;
     updatedChats.pop();
 
-    if (result.length === 0) {
-      setAllChats([...updatedChats, { role: "assistant", message: content }]);
-    } else {
-      setAllChats([
-        ...updatedChats,
-        { role: "assistant", message: content },
-        { role: "products-list", message: result },
-      ]);
-    }
-    console.log(result);
+    setAllChats([...updatedChats, { role: "assistant", message: content, result: result }]);
   };
 
   const handleKeyDown = (event) => {
@@ -83,7 +72,7 @@ export default function ChatBot() {
               </div>
             </div>
             <div>
-              <div className="chat-wrapper">
+              <div className="chat-wrapper" id="chat-wrapper">
                 {allChats.map((chat, ind) => {
                   return <ChatItem data={chat} key={ind} />;
                 })}

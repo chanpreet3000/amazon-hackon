@@ -1,6 +1,5 @@
 import React from "react";
-import ProductCard from "../Homepage/ShopProducts/ProductCard/ProductCard";
-import { json } from "react-router-dom";
+import ChatProduct from "./ChatProduct";
 
 export default function ChatItem({ data }) {
   return (
@@ -9,7 +8,9 @@ export default function ChatItem({ data }) {
         <>
           <div className="chat-not-system fade-in">
             <img src="https://static.thenounproject.com/png/363633-200.png" />
-            <div className="message">{data.message}</div>
+            <div className="message">
+              <div>{data.message}</div>
+            </div>
           </div>
         </>
       )}
@@ -17,17 +18,16 @@ export default function ChatItem({ data }) {
         <>
           <div className="chat-system fade-in">
             <img src="https://cdn0.iconfinder.com/data/icons/most-usable-logos/120/Amazon-512.png" />
-            <div className="message">{data.message}</div>
-          </div>
-        </>
-      )}
-
-      {data.role === "products-list" && (
-        <>
-          <div className="product-list">
-            {data.message.map((product, ind) => {
-              return <ProductCard data={product} key={ind} />;
-            })}
+            <div className={`message ${data.result?.length > 0 ? "result" : ""}`}>
+              <div>{data.message}</div>
+              {data.result?.length > 0 && (
+                <div className="chat-products-list">
+                  {data.result?.map((product, ind) => {
+                    return <ChatProduct data={product} key={ind} />;
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </>
       )}

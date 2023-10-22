@@ -9,7 +9,13 @@ const Homepage = () => {
 
   return (
     <>
-      <ChatBot />
+      <ChatBot
+        apiUrl={"/api/query/"}
+        initialMessages={[
+          { role: "assistant", message: "Hi! I'm Amazon's new interactive chat bot." },
+          { role: "assistant", message: "How can I help you today?" },
+        ]}
+      />
       <h1 className="homepage-title">Amazon For Customers</h1>
       <ShopProducts />
     </>

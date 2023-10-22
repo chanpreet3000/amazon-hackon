@@ -16,6 +16,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+console.log("Creating Embeddings");
 const loader = new DirectoryLoader("./docs", {
   ".csv": (path) => new CSVLoader(path, ["title", "rating", "price", "image", "description", "brand"]),
 });
@@ -24,6 +25,7 @@ var textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
 var texts = await textSplitter.splitDocuments(documents);
 var embeddings = new OpenAIEmbeddings();
 var vectordb = await HNSWLib.fromDocuments(texts, embeddings, { numDimensions: 1536 });
+console.log("Embeddings created");
 
 export const relevancyListFromQuery = async (userQuery, items) => {
   const retriever = vectordb.asRetriever({ k: items });
@@ -31,7 +33,7 @@ export const relevancyListFromQuery = async (userQuery, items) => {
   var sortedJsonResults = [];
 
   docs.forEach((ele) => {
-    var arr = ele.pageContent.split("\n");
+    var arr = ele.pageContent.split("\n");  
     var obj = {};
     arr.forEach((el) => {
       var val = el.split(":");
