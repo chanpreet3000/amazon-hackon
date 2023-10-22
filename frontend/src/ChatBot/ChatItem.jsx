@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import ChatProduct from "./ChatProduct";
 
-export default function ChatItem({ data }) {
+export default function ChatItem({ data, addAChat }) {
+  const [feedbackGiven, setFeedbackGive] = useState(false);
   return (
     <>
       {data.role === "user" && (
@@ -24,6 +25,24 @@ export default function ChatItem({ data }) {
                 <div className="chat-products-list">
                   {data.result?.map((product, ind) => {
                     return <ChatProduct data={product} key={ind} />;
+                  })}
+                </div>
+              )}
+              {!feedbackGiven && data.buttons?.length > 0 && (
+                <div className="chat-button-list">
+                  {data.buttons?.map((element, ind) => {
+                    return (
+                      <div
+                        className="chat-button"
+                        key={ind}
+                        onClick={() => {
+                          addAChat();
+                          setFeedbackGive(true);
+                        }}
+                      >
+                        <div>{element}</div>
+                      </div>
+                    );
                   })}
                 </div>
               )}

@@ -282,3 +282,20 @@
   bottom: 2rem;
   right: 2rem;
 }
+
+.chat-button-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  width: 100%;
+  margin: 0.5rem 1rem;
+}
+
+.chat-button-list .chat-button {
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  background-color: #f8981d;
+  color: white;
+  cursor: pointer;
+}

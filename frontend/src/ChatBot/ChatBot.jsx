@@ -13,13 +13,29 @@ export default function ChatBot({ apiUrl, initialMessages }) {
   };
 
   useEffect(() => {
-    console.log(allChats);
     scrollSmoothlyToBottom("chat-wrapper");
+    if (allChats[allChats.length - 1].result?.length > 0) {
+      console.log("I am here!");
+      setTimeout(() => {
+        addProductReviewQuery();
+      }, 3 * 1000);
+    }
   }, [allChats]);
 
   const scrollSmoothlyToBottom = (id) => {
     const element = document.getElementById(id);
     element.scrollTop = element.scrollHeight;
+  };
+
+  const addProductReviewQuery = async () => {
+    setAllChats([
+      ...allChats,
+      {
+        role: "assistant",
+        message: "Did you find the chatbot helpful? Share your feedback!",
+        buttons: ["Yes", "No", "Later"],
+      },
+    ]);
   };
 
   const userEnteredQuery = async () => {
@@ -45,6 +61,10 @@ export default function ChatBot({ apiUrl, initialMessages }) {
     if (event.key === "Enter") {
       userEnteredQuery();
     }
+  };
+
+  const addAChat = () => {
+    setAllChats([...allChats, { role: "assistant", message: "Thanks for the feedback" }]);
   };
   return (
     <>
@@ -74,7 +94,7 @@ export default function ChatBot({ apiUrl, initialMessages }) {
             <div>
               <div className="chat-wrapper" id="chat-wrapper">
                 {allChats.map((chat, ind) => {
-                  return <ChatItem data={chat} key={ind} />;
+                  return <ChatItem data={chat} key={ind} addAChat={addAChat} />;
                 })}
               </div>
               <div className="chat-input">
