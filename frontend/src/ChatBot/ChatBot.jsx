@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import ChatItem from "./ChatItem";
 import { axiosInstance } from "../axios";
 
-export default function ChatBot({ apiUrl, initialMessages }) {
+export default function ChatBot({ tryName, name, apiUrl, initialMessages }) {
   const [div1Visible, setDiv1Visible] = useState(true);
   const [allChats, setAllChats] = useState(initialMessages);
   const [searchInput, setSearchInput] = useState([]);
@@ -13,12 +13,10 @@ export default function ChatBot({ apiUrl, initialMessages }) {
   };
 
   useEffect(() => {
+    console.log(allChats);
     scrollSmoothlyToBottom("chat-wrapper");
     if (allChats[allChats.length - 1].result?.length > 0) {
-      console.log("I am here!");
-      setTimeout(() => {
-        addProductReviewQuery();
-      }, 3 * 1000);
+      askUserForFeedBack();
     }
   }, [allChats]);
 
@@ -27,15 +25,17 @@ export default function ChatBot({ apiUrl, initialMessages }) {
     element.scrollTop = element.scrollHeight;
   };
 
-  const addProductReviewQuery = async () => {
-    setAllChats([
-      ...allChats,
-      {
-        role: "assistant",
-        message: "Did you find the chatbot helpful? Share your feedback!",
-        buttons: ["Yes", "No", "Later"],
-      },
-    ]);
+  const askUserForFeedBack = async () => {
+    setTimeout(() => {
+      setAllChats([
+        ...allChats,
+        {
+          role: "assistant",
+          message: "Did you find the chatbot helpful? Share your feedback!",
+          buttons: ["Yes", "No", "Later"],
+        },
+      ]);
+    }, 3 * 1000);
   };
 
   const userEnteredQuery = async () => {
@@ -50,10 +50,24 @@ export default function ChatBot({ apiUrl, initialMessages }) {
     setAllChats(updatedChats);
 
     const response = await axiosInstance.post(apiUrl, { query: tempChats });
-    const content = response.data.content;
-    const result = response.data.result;
+    var content = response.data.content;
+    var result = response.data.result;
     updatedChats.pop();
 
+    if (content.includes("[!]")) {
+      var list = content.split("[!]");
+      content = list[0].trim();
+      if (list[1].trim() == "CUSTOMER_NOT_SATISFIED") {
+        //TODO request to backend to store feedback
+        addAChat({
+          role: "assistant",
+          message: "",
+          buttons: ["Call An Agent", "Chat with Agent", "Maybe Later"],
+        });
+      } else if (list[1].trim() == "CUSTOMER_SATISFIED") {
+        askUserForFeedBack();
+      }
+    }
     setAllChats([...updatedChats, { role: "assistant", message: content, result: result }]);
   };
 
@@ -63,8 +77,10 @@ export default function ChatBot({ apiUrl, initialMessages }) {
     }
   };
 
-  const addAChat = () => {
-    setAllChats([...allChats, { role: "assistant", message: "Thanks for the feedback" }]);
+  const addAChat = (obj) => {
+    setTimeout(() => {
+      setAllChats([...allChats, obj]);
+    }, 2 * 1000);
   };
   return (
     <>
@@ -72,7 +88,7 @@ export default function ChatBot({ apiUrl, initialMessages }) {
         <div className="wrapper">
           <div className={`div1 ${div1Visible ? "" : "hidden"}`}>
             <div>
-              <h2>Try Amazon's New ChatBot</h2>
+              <h2>{tryName}</h2>
             </div>
 
             <button
@@ -88,7 +104,7 @@ export default function ChatBot({ apiUrl, initialMessages }) {
             <div>
               <div className="wrapper">
                 <img src="https://cdn0.iconfinder.com/data/icons/most-usable-logos/120/Amazon-512.png" />
-                <h2>Amazon's Chat Bot</h2>
+                <h2>{name}</h2>
               </div>
             </div>
             <div>

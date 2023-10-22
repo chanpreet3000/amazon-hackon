@@ -10,6 +10,8 @@ const Homepage = () => {
   return (
     <>
       <ChatBot
+        tryName="Try Amazon's New Search Assistant"
+        name="Amazon's Search Assistant"
         apiUrl={"/api/query/"}
         initialMessages={[
           { role: "assistant", message: "Hi! I'm Amazon's new interactive chat bot." },

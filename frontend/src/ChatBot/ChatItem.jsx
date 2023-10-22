@@ -36,7 +36,7 @@ export default function ChatItem({ data, addAChat }) {
                         className="chat-button"
                         key={ind}
                         onClick={() => {
-                          addAChat();
+                          addAChat({ role: "assistant", message: "Thanks for the feedback" });
                           setFeedbackGive(true);
                         }}
                       >
