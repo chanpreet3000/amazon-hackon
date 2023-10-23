@@ -12,6 +12,8 @@ const customerToken = "customerToken";
 import fs from "fs";
 import { relevancyListFromQuery } from "./query.js";
 import UserBotFeedback from "../models/UserBotFeedback.model.js";
+import path from "path";
+import { fileURLToPath } from "url";
 //
 //
 //
@@ -99,7 +101,9 @@ const getProducts = async (req, res) => {
 
     return randomItems;
   }
-  const rawData = fs.readFileSync("C:/Users/chanp/OneDrive/Desktop/Projects/React/amazon-hackon/backend/dataset.json");
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const rawData = fs.readFileSync(path.resolve(__dirname, "../dataset.json"));
   const dataset = JSON.parse(rawData);
 
   const products = await getRandomItems(dataset, 10);
