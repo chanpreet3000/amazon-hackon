@@ -92,7 +92,8 @@ const getResponseFromQuery = async (req, res, next) => {
     ...messagesList,
     {
       role: "system",
-      content: "Respond to the query and follow the rules!",
+      content:
+        "Respond to the query and follow the rules. Don't forget the seperator and reduced query when all details are present.",
     },
   ];
   console.log(messagesList);
@@ -144,8 +145,7 @@ const getResponseFromOrderChatBot = async (req, res, next) => {
     ...messagesList,
     {
       role: "system",
-      content:
-        "Respond to the query and follow the rules. Don't forget the seperator and reduced query when all details are present.",
+      content: "Respond to the query and follow the rules!",
     },
   ];
   console.log(messagesList);
