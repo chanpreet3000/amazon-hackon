@@ -2,11 +2,15 @@ import "./styles.css";
 import React, { useEffect, useState } from "react";
 import ChatItem from "./ChatItem";
 import { axiosInstance } from "../axios";
+import SettingsIcon from "@mui/icons-material/Settings";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function ChatBot({ tryName, name, apiUrl, initialMessages }) {
   const [div1Visible, setDiv1Visible] = useState(true);
   const [allChats, setAllChats] = useState(initialMessages);
   const [searchInput, setSearchInput] = useState([]);
+  const [isSettingsTabOpened, setIsSettingsTabOpened] = useState(false);
+  const [tonePreference, setTonePreference] = useState("Creative");
 
   const toggleDivVisibility = () => {
     setDiv1Visible(!div1Visible);
@@ -148,8 +152,65 @@ export default function ChatBot({ tryName, name, apiUrl, initialMessages }) {
       setAllChats([...allChats, obj]);
     }, 2 * 1000);
   };
+
+  const handleOptionChange = (event) => {
+    setTonePreference(event.target.value);
+  };
+
   return (
     <>
+      {isSettingsTabOpened && (
+        <>
+          <div className="settings-tab">
+            <div className="wrapper">
+              <CloseIcon
+                style={{ position: "absolute", top: "30px", right: "30px", fontSize: "30px", cursor: "pointer" }}
+                onClick={() => {
+                  setIsSettingsTabOpened(false);
+                }}
+              />
+              <div style={{ textAlign: "center" }}>
+                <h1>User's Preference</h1>
+                <div class= "label-container">
+                  <label class="container">
+                    Creative
+                    <input
+                      type="radio"
+                      name="tone_preference"
+                      checked={tonePreference === "Creative"}
+                      value={"Creative"}
+                      onChange={handleOptionChange}
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+                  <label class="container">
+                    Balanced
+                    <input
+                      type="radio"
+                      name="tone_preference"
+                      checked={tonePreference === "Balanced"}
+                      value={"Balanced"}
+                      onChange={handleOptionChange}
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+                  <label class="container">
+                    Precise
+                    <input
+                      type="radio"
+                      name="tone_preference"
+                      checked={tonePreference === "Precise"}
+                      value={"Precise"}
+                      onChange={handleOptionChange}
+                    />
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
       <div className="chatbox">
         <div className="wrapper">
           <div className={`div1 ${div1Visible ? "" : "hidden"}`}>
@@ -169,8 +230,16 @@ export default function ChatBot({ tryName, name, apiUrl, initialMessages }) {
           <div className={`div2 ${div1Visible ? "hidden" : ""}`}>
             <div>
               <div className="wrapper">
-                <img src="https://cdn0.iconfinder.com/data/icons/most-usable-logos/120/Amazon-512.png" />
-                <h2>{name}</h2>
+                <div className="wrapper1">
+                  <img src="https://cdn0.iconfinder.com/data/icons/most-usable-logos/120/Amazon-512.png" />
+                  <h2>{name}</h2>
+                </div>
+                <SettingsIcon
+                  style={{ color: "black", fontSize: "40px", cursor: "pointer" }}
+                  onClick={() => {
+                    setIsSettingsTabOpened(true);
+                  }}
+                />
               </div>
             </div>
             <div>
@@ -190,6 +259,14 @@ export default function ChatBot({ tryName, name, apiUrl, initialMessages }) {
                 />
                 <div className="send-btn" onClick={userEnteredQuery}>
                   <img src="https://cdn-icons-png.flaticon.com/512/3106/3106794.png" />
+                </div>
+                <div
+                  className="end-session-btn"
+                  onClick={() => {
+                    setAllChats([...initialMessages]);
+                  }}
+                >
+                  Clear Conversation
                 </div>
               </div>
             </div>
