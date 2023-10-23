@@ -4,17 +4,35 @@ import ChatItem from "./ChatItem";
 import { axiosInstance } from "../axios";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CloseIcon from "@mui/icons-material/Close";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function ChatBot({ tryName, name, apiUrl, initialMessages }) {
   const [div1Visible, setDiv1Visible] = useState(true);
   const [allChats, setAllChats] = useState(initialMessages);
   const [searchInput, setSearchInput] = useState([]);
   const [isSettingsTabOpened, setIsSettingsTabOpened] = useState(false);
-  const [tonePreference, setTonePreference] = useState("Creative");
+  const [tonePreference, setTonePreference] = useState("Balanced");
+  const [lengthPreference, setLengthPreference] = useState("Balanced");
+  const [userData, setUserData] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const toggleDivVisibility = () => {
     setDiv1Visible(!div1Visible);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get("/api/customer/dashboard");
+        setUserData(response.data.user_data);
+      } catch (err) {
+        setUserData(null);
+      }
+    };
+
+    fetchData();
+  }, [location]);
 
   useEffect(() => {
     console.log(allChats);
@@ -86,7 +104,7 @@ export default function ChatBot({ tryName, name, apiUrl, initialMessages }) {
     updatedChats.push({ role: "assistant", message: "..." });
     setAllChats(updatedChats);
 
-    const response = await axiosInstance.post(apiUrl, { query: tempChats });
+    const response = await axiosInstance.post(apiUrl, { query: tempChats, tonePreference, lengthPreference });
     var content = response.data.content;
     var result = response.data.result;
     updatedChats.pop();
@@ -156,6 +174,9 @@ export default function ChatBot({ tryName, name, apiUrl, initialMessages }) {
   const handleOptionChange = (event) => {
     setTonePreference(event.target.value);
   };
+  const handleOptionChange2 = (event) => {
+    setLengthPreference(event.target.value);
+  };
 
   return (
     <>
@@ -171,40 +192,83 @@ export default function ChatBot({ tryName, name, apiUrl, initialMessages }) {
               />
               <div style={{ textAlign: "center" }}>
                 <h1>User's Preference</h1>
-                <div class= "label-container">
-                  <label class="container">
-                    Creative
-                    <input
-                      type="radio"
-                      name="tone_preference"
-                      checked={tonePreference === "Creative"}
-                      value={"Creative"}
-                      onChange={handleOptionChange}
-                    />
-                    <span class="checkmark"></span>
-                  </label>
-                  <label class="container">
-                    Balanced
-                    <input
-                      type="radio"
-                      name="tone_preference"
-                      checked={tonePreference === "Balanced"}
-                      value={"Balanced"}
-                      onChange={handleOptionChange}
-                    />
-                    <span class="checkmark"></span>
-                  </label>
-                  <label class="container">
-                    Precise
-                    <input
-                      type="radio"
-                      name="tone_preference"
-                      checked={tonePreference === "Precise"}
-                      value={"Precise"}
-                      onChange={handleOptionChange}
-                    />
-                    <span class="checkmark"></span>
-                  </label>
+                <div style={{ display: "flex", margin: "0rem 4rem", alignItems: "center" }}>
+                  <div class="label-container">
+                    <h2>Conversation Style</h2>
+                    <div>
+                      <label class="container">
+                        Creative
+                        <input
+                          type="radio"
+                          name="tone_preference"
+                          checked={tonePreference === "Creative"}
+                          value={"Creative"}
+                          onChange={handleOptionChange}
+                        />
+                        <span class="checkmark"></span>
+                      </label>
+                      <label class="container">
+                        Balanced
+                        <input
+                          type="radio"
+                          name="tone_preference"
+                          checked={tonePreference === "Balanced"}
+                          value={"Balanced"}
+                          onChange={handleOptionChange}
+                        />
+                        <span class="checkmark"></span>
+                      </label>
+                      <label class="container">
+                        Precise
+                        <input
+                          type="radio"
+                          name="tone_preference"
+                          checked={tonePreference === "Precise"}
+                          value={"Precise"}
+                          onChange={handleOptionChange}
+                        />
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="label-container">
+                    <h2>Response Type</h2>
+                    <div>
+                      <label class="container">
+                        Descriptive
+                        <input
+                          type="radio"
+                          name="length_preference"
+                          checked={lengthPreference === "Descriptive"}
+                          value={"Descriptive"}
+                          onChange={handleOptionChange2}
+                        />
+                        <span class="checkmark"></span>
+                      </label>
+                      <label class="container">
+                        Balanced
+                        <input
+                          type="radio"
+                          name="length_preference"
+                          checked={lengthPreference === "Balanced"}
+                          value={"Balanced"}
+                          onChange={handleOptionChange2}
+                        />
+                        <span class="checkmark"></span>
+                      </label>
+                      <label class="container">
+                        Short
+                        <input
+                          type="radio"
+                          name="length_preference"
+                          checked={lengthPreference === "Short"}
+                          value={"Short"}
+                          onChange={handleOptionChange2}
+                        />
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -216,15 +280,21 @@ export default function ChatBot({ tryName, name, apiUrl, initialMessages }) {
           <div className={`div1 ${div1Visible ? "" : "hidden"}`}>
             <div>
               <h2>{tryName}</h2>
+              {userData === null && <p style={{ color: "red" }}>Please sign in to use chat-bot</p>}
             </div>
 
             <button
               className="btn"
               onClick={(e) => {
-                toggleDivVisibility();
+                if (userData === null) {
+                  navigate("/login");
+                } else {
+                  toggleDivVisibility();
+                }
               }}
             >
-              Try Now
+              {userData === null && "Sign In"}
+              {userData !== null && "Try Now"}
             </button>
           </div>
           <div className={`div2 ${div1Visible ? "hidden" : ""}`}>
@@ -238,6 +308,12 @@ export default function ChatBot({ tryName, name, apiUrl, initialMessages }) {
                   style={{ color: "black", fontSize: "40px", cursor: "pointer" }}
                   onClick={() => {
                     setIsSettingsTabOpened(true);
+                  }}
+                />
+                <CloseIcon
+                  style={{ color: "black", fontSize: "40px", cursor: "pointer" }}
+                  onClick={() => {
+                    setDiv1Visible(true);
                   }}
                 />
               </div>

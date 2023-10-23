@@ -232,14 +232,14 @@
 .chat-product .image {
   width: 100%;
   overflow: hidden;
+  text-align: center;
 }
 .chat-product .prime {
   width: 50px;
 }
 
 .chat-product .image > img {
-  width: 100%;
-  height: 100%;
+  height: 200px;
   object-fit: contain;
 }
 
@@ -351,6 +351,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    text-align: left;
   }
 
   /* Hide the browser's default radio button */
@@ -406,8 +407,11 @@
   }
 
   .label-container {
-    width: 30%;
     margin: auto;
     margin-top: 4rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }

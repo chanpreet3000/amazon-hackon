@@ -65,6 +65,8 @@ const getResponseFromQuery = async (req, res, next) => {
   try {
     const data = req.body;
     const query = data.query;
+    const tonePreference = data.tonePreference;
+    const lengthPreference = data.lengthPreference;
     console.log(query);
     const prompt = `Hello, AI! I'm a salesman at a huge e-commerce platform called Amazon, which sells electronics like televisions, phones, air conditioners and many other electronics. I need your help to manage my conversations on our e-commerce website as a chatbot. You'll be stepping in for me, simulating my personality and communication style. Be concise and direct in your messages ensuring not to make responses long.
 
@@ -87,14 +89,15 @@ const getResponseFromQuery = async (req, res, next) => {
     //
     //
     //
-
-    var messagesList = getMessagesList(prompt, query);
-    messagesList = [
-      ...messagesList,
+    var messagesList = [
+      ...getMessagesList(prompt, query),
       {
         role: "system",
-        content:
-          "Respond to the query and follow the rules. Don't forget the seperator and reduced query when all details are present.",
+        content: `you are provided with some preferences which should be followed to generate the response. The response should have ${tonePreference} Conversational Style and the response length to be ${lengthPreference}`,
+      },
+      {
+        role: "system",
+        content: `Respond to the query and follow the rules. Don't forget the seperator and reduced query when all details are present. `,
       },
     ];
     console.log(messagesList);
@@ -124,6 +127,8 @@ const getResponseFromOrderChatBot = async (req, res, next) => {
   try {
     const data = req.body;
     const query = data.query;
+    const tonePreference = data.tonePreference;
+    const lengthPreference = data.lengthPreference;
     console.log(query);
     const prompt = `
     Hello, AI! I'm a customer care service representative at a huge e-commerce platform called Amazon, which sells electronics like televisions, phones, air conditioners and many other electronics. I need your help to manage my conversations on our e-commerce website as a chatbot. You'll be stepping in for me, simulating my personality and communication style. Be concise and direct in your messages ensuring not to make responses long.
@@ -147,12 +152,15 @@ const getResponseFromOrderChatBot = async (req, res, next) => {
     //
     //
 
-    var messagesList = getMessagesList(prompt, query);
-    messagesList = [
-      ...messagesList,
+    var messagesList = [
+      ...getMessagesList(prompt, query),
       {
         role: "system",
-        content: "Respond to the query and follow the rules!",
+        content: `you are provided with some preferences which should be followed to generate the response. The response should have ${tonePreference} Conversational Style and the response length to be ${lengthPreference}`,
+      },
+      {
+        role: "system",
+        content: `Respond to the query and follow the rules!`,
       },
     ];
     console.log(messagesList);
