@@ -6,34 +6,21 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import CustomerUser from "../models/CustomerUser.model.js";
 import OrderHistory from "../models/OrderHistory.model.js";
-import { tryCatch } from "../util.js";
+import { restrictToCustomerOnly, tryCatch } from "../util.js";
 const JWT_KEY = process.env.JWT_KEY;
 const customerToken = "customerToken";
 import fs from "fs";
-import { relevancyListFromQuery } from "./query.js";
+import { getUserNature, relevancyListFromQuery } from "./query.js";
 import UserBotFeedback from "../models/UserBotFeedback.model.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import UserNature from "../models/UserNature.js";
 //
 //
 //
 //
 //API CUSTOMER ROUTES HANDLERS
-const restrictToCustomerOnly = async (req, res, next) => {
-  try {
-    const token = req.cookies[customerToken];
-    const decoded = jwt.verify(token, JWT_KEY);
-    const customer = await CustomerUser.findOne({
-      email: decoded.email,
-      password: decoded.password,
-    });
-    if (!customer) return res.status(401).send("Invalid or Expired Token");
-    req.customer = customer;
-    next();
-  } catch (err) {
-    return res.status(401).send("CustomerUser not authorized");
-  }
-};
+
 const handleCustomerSignUp = async (req, res) => {
   const user = await CustomerUser.findOne({ email: req.body.email });
   if (user) return res.status(400).send(`Account with email ${req.body.email} already exists`);
@@ -124,6 +111,28 @@ const storeUserFeedback = async (req, res) => {
     feedback: data.feedback,
     conversations: data.conversations,
   });
+
+  var userNature = await UserNature.findOne({ userId: req.customer._id });
+  var nature = "no data";
+  if (userNature === null) {
+    await UserNature.create({
+      userId: req.customer._id,
+      nature: nature,
+    });
+  } else {
+    nature = userNature.nature;
+  }
+  console.log("OLD NATURE", nature);
+  const content = await getUserNature(nature, data.conversations);
+  console.log("NEW NATURE", content);
+
+  await UserNature.findOneAndUpdate(
+    {
+      userId: req.customer._id,
+    },
+    { nature: content }
+  );
+
   return res.status(200).send({ success: true, userBotFeedback });
 };
 

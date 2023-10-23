@@ -4,13 +4,14 @@ dotenv.config();
 const router = express.Router();
 
 import OpenAI from "openai";
-import { tryCatch } from "../util.js";
+import { restrictToCustomerOnly, tryCatch } from "../util.js";
 
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { CSVLoader } from "langchain/document_loaders/fs/csv";
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
+import UserNature from "../models/UserNature.js";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -53,11 +54,7 @@ const getMessagesList = (prompt, query) => {
   var messages = [];
   messages.push({ role: "system", content: prompt });
   query.forEach((element) => {
-    if (element.system === true) {
-      messages.push({ role: element.role, content: element.message });
-    } else {
-      messages.push({ role: element.role, content: element.message });
-    }
+    messages.push({ role: element.role, content: element.message });
   });
   return messages;
 };
@@ -67,7 +64,8 @@ const getResponseFromQuery = async (req, res, next) => {
     const query = data.query;
     const tonePreference = data.tonePreference;
     const lengthPreference = data.lengthPreference;
-    console.log(query);
+
+    const userNature = await UserNature.findOne({ userId: req.customer._id });
     const prompt = `Hello, AI! I'm a salesman at a huge e-commerce platform called Amazon, which sells electronics like televisions, phones, air conditioners and many other electronics. I need your help to manage my conversations on our e-commerce website as a chatbot. You'll be stepping in for me, simulating my personality and communication style. Be concise and direct in your messages ensuring not to make responses long.
 
   Here are some specific details and directions to guide the conversation:
@@ -93,6 +91,10 @@ const getResponseFromQuery = async (req, res, next) => {
       ...getMessagesList(prompt, query),
       {
         role: "system",
+        content: `The nature of the user is ${userNature?.nature}. Generate a response keeping the user's nature in mind.`,
+      },
+      {
+        role: "system",
         content: `you are provided with some preferences which should be followed to generate the response. The response should have ${tonePreference} Conversational Style and the response length to be ${lengthPreference}`,
       },
       {
@@ -100,7 +102,6 @@ const getResponseFromQuery = async (req, res, next) => {
         content: `Respond to the query and follow the rules. Don't forget the seperator and reduced query when all details are present. `,
       },
     ];
-    console.log(messagesList);
 
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -117,6 +118,7 @@ const getResponseFromQuery = async (req, res, next) => {
       return res.status(200).send({ success: true, content, result: [] });
     }
   } catch (e) {
+    console.log(e);
     return res
       .status(200)
       .send({ success: true, content: "Something went wrong. Please try again in a few minutes", result: [] });
@@ -129,7 +131,8 @@ const getResponseFromOrderChatBot = async (req, res, next) => {
     const query = data.query;
     const tonePreference = data.tonePreference;
     const lengthPreference = data.lengthPreference;
-    console.log(query);
+
+    const userNature = await UserNature.findOne({ userId: req.customer._id });
     const prompt = `
     Hello, AI! I'm a customer care service representative at a huge e-commerce platform called Amazon, which sells electronics like televisions, phones, air conditioners and many other electronics. I need your help to manage my conversations on our e-commerce website as a chatbot. You'll be stepping in for me, simulating my personality and communication style. Be concise and direct in your messages ensuring not to make responses long.
     
@@ -156,6 +159,10 @@ const getResponseFromOrderChatBot = async (req, res, next) => {
       ...getMessagesList(prompt, query),
       {
         role: "system",
+        content: `The nature of the user is ${userNature?.nature}. Generate a response keeping the user's nature in mind.`,
+      },
+      {
+        role: "system",
         content: `you are provided with some preferences which should be followed to generate the response. The response should have ${tonePreference} Conversational Style and the response length to be ${lengthPreference}`,
       },
       {
@@ -163,7 +170,6 @@ const getResponseFromOrderChatBot = async (req, res, next) => {
         content: `Respond to the query and follow the rules!`,
       },
     ];
-    console.log(messagesList);
 
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -180,12 +186,45 @@ const getResponseFromOrderChatBot = async (req, res, next) => {
       return res.status(200).send({ success: true, content, result: [] });
     }
   } catch (e) {
+    console.log(e);
     return res
       .status(200)
       .send({ success: true, content: "Something went wrong. Please try again in a few minutes", result: [] });
   }
 };
 
-router.post("/", tryCatch(getResponseFromQuery));
-router.post("/orderbot", tryCatch(getResponseFromOrderChatBot));
+export const getUserNature = async (userNature, conversations) => {
+  try {
+    const prompt = `Analyze the following user-bot conversation: ${JSON.stringify(conversations)}
+    To generate the nature of the user follow the below mentioned rules.
+    1. Provide a brief description of the user's nature, preferences, and tone.
+    2. Provide only keywords and make it concise, short and direct.
+    3. Given with previous experience the nature of the person is ${userNature}.
+    4. The response should only contained the combined nature from previous nature and current conversations.`;
+
+    var messagesList = [
+      {
+        role: "system",
+        content: prompt,
+      },
+      {
+        role: "system",
+        content: `Respond to the query and follow the rules!`,
+      },
+    ];
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: messagesList,
+    });
+    let content = response.choices[0].message.content;
+    console.log(content);
+    return content;
+  } catch (e) {
+    return "";
+  }
+};
+
+router.post("/", restrictToCustomerOnly, tryCatch(getResponseFromQuery));
+router.post("/orderbot", restrictToCustomerOnly, tryCatch(getResponseFromOrderChatBot));
 export default router;
