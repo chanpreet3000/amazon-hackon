@@ -109,7 +109,7 @@ const getProducts = async (req, res) => {
 const getProductsFromQuery = async (req, res) => {
   const data = req.body;
   const query = data.query;
-  const products = await relevancyListFromQuery(query, 20);
+  const products = await relevancyListFromQuery(query, 40);
   return res.status(200).send({ success: true, products });
 };
 

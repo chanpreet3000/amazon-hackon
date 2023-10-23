@@ -8,12 +8,14 @@ export default function SearchPage() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query");
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       const response = await axiosInstance.post("/api/customer/products/query", {
         query: query,
       });
       setProducts(response.data.products);
+      setIsLoading(false);
     };
     fetchData();
   }, [query]);
@@ -22,12 +24,20 @@ export default function SearchPage() {
     <>
       <div className="search-page">
         <h2>Looking for results: {query}</h2>
-
-        <div className="product-list">
-          {products.map((product) => {
-            return <ProductCard data={product} key={product._id} />;
-          })}
-        </div>
+        {isLoading && (
+          <div class="loader-wrapper">
+            <span class="loader"></span>
+          </div>
+        )}
+        {!isLoading && (
+          <>
+            <div className="product-list">
+              {products.map((product) => {
+                return <ProductCard data={product} key={product._id} />;
+              })}
+            </div>
+          </>
+        )}
       </div>
     </>
   );
