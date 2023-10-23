@@ -11,6 +11,7 @@ const JWT_KEY = process.env.JWT_KEY;
 const customerToken = "customerToken";
 import fs from "fs";
 import { relevancyListFromQuery } from "./query.js";
+import UserBotFeedback from "../models/UserBotFeedback.model.js";
 //
 //
 //
@@ -112,6 +113,16 @@ const getProductsFromQuery = async (req, res) => {
   return res.status(200).send({ success: true, products });
 };
 
+const storeUserFeedback = async (req, res) => {
+  const data = req.body;
+  const userBotFeedback = await UserBotFeedback.create({
+    userId: req.customer._id,
+    feedback: data.feedback,
+    conversations: data.conversations,
+  });
+  return res.status(200).send({ success: true, userBotFeedback });
+};
+
 //
 //
 //
@@ -124,5 +135,6 @@ router.post("/products/query", tryCatch(getProductsFromQuery));
 router.get("/dashboard", restrictToCustomerOnly, tryCatch(getCustomerDashboardData));
 router.post("/orders/new", restrictToCustomerOnly, tryCatch(createCustomerOrderHistory));
 router.get("/orders", restrictToCustomerOnly, tryCatch(getCustomerOrderHistory));
+router.post("/feedback", restrictToCustomerOnly, tryCatch(storeUserFeedback));
 
 export default router;

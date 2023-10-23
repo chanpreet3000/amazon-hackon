@@ -45,7 +45,7 @@ const Login = () => {
         password: form.password,
       })
       .then((response) => {
-        navigate("/products");
+        navigate("/");
       })
       .catch((error) => {
         console.error(error);

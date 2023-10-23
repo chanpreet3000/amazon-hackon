@@ -32,7 +32,40 @@ export default function ChatBot({ tryName, name, apiUrl, initialMessages }) {
         {
           role: "assistant",
           message: "Did you find the chatbot helpful? Share your feedback!",
-          buttons: ["Yes", "No", "Later"],
+          buttons: [
+            {
+              text: "Yes",
+              onClick: async () => {
+                const response = await axiosInstance.post("/api/customer/feedback", {
+                  feedback: "SEARCH_ASSISTANT_YES",
+                  conversations: JSON.stringify(allChats),
+                });
+                console.log(response);
+                addAChat({ role: "assistant", message: "Thanks for the feedback" });
+              },
+            },
+            {
+              text: "No",
+              onClick: async () => {
+                const response = await axiosInstance.post("/api/customer/feedback", {
+                  feedback: "SEARCH_ASSISTANT_NO",
+                  conversations: JSON.stringify(allChats),
+                });
+                console.log(response);
+                addAChat({ role: "assistant", message: "Thanks for the feedback" });
+              },
+            },
+            {
+              text: "Later",
+              onClick: async () => {
+                const response = await axiosInstance.post("/api/customer/feedback", {
+                  feedback: "SEARCH_ASSISTANT_LATER",
+                  conversations: JSON.stringify(allChats),
+                });
+                console.log(response);
+              },
+            },
+          ],
         },
       ]);
     }, 3 * 1000);
@@ -62,7 +95,40 @@ export default function ChatBot({ tryName, name, apiUrl, initialMessages }) {
         addAChat({
           role: "assistant",
           message: "",
-          buttons: ["Call An Agent", "Chat with Agent", "Maybe Later"],
+          buttons: [
+            {
+              text: "Call An Agent",
+              onClick: async () => {
+                const response = await axiosInstance.post("/api/customer/feedback", {
+                  feedback: "SERVICE_ASSISTANT_CALL_AN_AGENT",
+                  conversations: JSON.stringify(allChats),
+                });
+                console.log(response);
+                addAChat({ role: "assistant", message: "An Agent will be calling you soon." });
+              },
+            },
+            {
+              text: "Chat With Agent",
+              onClick: async () => {
+                const response = await axiosInstance.post("/api/customer/feedback", {
+                  feedback: "SERVICE_ASSISTANT_CHAT_WITH_AGENT",
+                  conversations: JSON.stringify(allChats),
+                });
+                console.log(response);
+                addAChat({ role: "assistant", message: "An Agent will be chatting with you soon." });
+              },
+            },
+            {
+              text: "Later",
+              onClick: async () => {
+                const response = await axiosInstance.post("/api/customer/feedback", {
+                  feedback: "SERVICE_ASSISTANT_LATER",
+                  conversations: JSON.stringify(allChats),
+                });
+                console.log(response);
+              },
+            },
+          ],
         });
       } else if (list[1].trim() == "CUSTOMER_SATISFIED") {
         askUserForFeedBack();
