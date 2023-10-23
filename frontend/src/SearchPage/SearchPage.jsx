@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./styles.css";
-import { axiosInstance } from "../axios";
+import { axiosInstance } from "../axios"; 
 import ProductCard from "../Homepage/ShopProducts/ProductCard/ProductCard";
 
 export default function SearchPage() {
