@@ -2,7 +2,7 @@
 # DEMO
 - Deployed on Website: [Website Link](http://ec2-34-229-147-48.compute-1.amazonaws.com/)
 - PPT of our prototype: [Canva Link](https://www.canva.com/design/DAFw4NszU2k/pi87rXGRJKg5QSQUy2eIyg/edit)
-- Video of our prototype
+- Video of our prototype: [Video Link](https://www.youtube.com/watch?v=57UqK5mQd6A&ab_channel=ChanpreetSingh)
 
   [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/57UqK5mQd6A/0.jpg)](https://www.youtube.com/watch?v=57UqK5mQd6A)
 - Images of our chat-bot
