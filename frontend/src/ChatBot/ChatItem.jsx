@@ -2,6 +2,8 @@ import React from "react";
 import ChatProduct from "./ChatProduct";
 
 export default function ChatItem({ data }) {
+  data.message = data.message.replace(/\r\n|\r|\n/g, "<br/>");
+  console.log(data.message);
   return (
     <>
       {data.role === "user" && (
@@ -19,7 +21,7 @@ export default function ChatItem({ data }) {
           <div className="chat-system fade-in">
             <img src="https://cdn0.iconfinder.com/data/icons/most-usable-logos/120/Amazon-512.png" />
             <div className={`message ${data.result?.length > 0 ? "result" : ""}`}>
-              <div>{data.message}</div>
+              <div dangerouslySetInnerHTML={{ __html: data.message }}></div>
               {data.result?.length > 0 && (
                 <div className="chat-products-list">
                   {data.result?.map((product, ind) => {

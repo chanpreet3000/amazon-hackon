@@ -93,14 +93,14 @@ const getProducts = async (req, res) => {
   const rawData = fs.readFileSync(path.resolve(__dirname, "../dataset.json"));
   const dataset = JSON.parse(rawData);
 
-  const products = await getRandomItems(dataset, 10);
+  const products = await getRandomItems(dataset, 20);
   return res.status(200).send({ success: true, products });
 };
 
 const getProductsFromQuery = async (req, res) => {
   const data = req.body;
   const query = data.query;
-  const products = await relevancyListFromQuery(query, 40);
+  const products = await relevancyListFromQuery(query, 20);
   return res.status(200).send({ success: true, products });
 };
 
@@ -113,18 +113,14 @@ const storeUserFeedback = async (req, res) => {
   });
 
   var userNature = await UserNature.findOne({ userId: req.customer._id });
-  var nature = "no data";
-  if (userNature === null) {
-    await UserNature.create({
+  if (!userNature) {
+    userNature = await UserNature.create({
       userId: req.customer._id,
-      nature: nature,
+      nature: "no-data",
     });
-  } else {
-    nature = userNature.nature;
   }
-  console.log("OLD NATURE", nature);
-  const content = await getUserNature(nature, data.conversations);
-  console.log("NEW NATURE", content);
+
+  const content = await getUserNature(userNature.nature, data.conversations);
 
   await UserNature.findOneAndUpdate(
     {
