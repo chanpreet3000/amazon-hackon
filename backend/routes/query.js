@@ -91,7 +91,7 @@ const getResponseFromQuery = async (req, res, next) => {
     var messagesList = [
       {
         role: "system",
-        content: `The nature and preferences of the user is ${userNature?.nature}. Only provide the user's preferences when user wants his/her preferences!`,
+        content: `The nature of the user is ${userNature?.nature}. Generate a response keeping the user's nature in mind.`,
       },
       ...getMessagesList(prompt, query),
       {
