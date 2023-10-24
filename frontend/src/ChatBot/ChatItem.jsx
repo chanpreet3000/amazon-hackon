@@ -3,7 +3,6 @@ import ChatProduct from "./ChatProduct";
 
 export default function ChatItem({ data }) {
   data.message = data.message.replace(/\r\n|\r|\n/g, "<br/>");
-  console.log(data.message);
   return (
     <>
       {data.role === "user" && (

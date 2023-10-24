@@ -58,6 +58,7 @@ const getMessagesList = (prompt, query) => {
   });
   return messages;
 };
+
 const getResponseFromQuery = async (req, res, next) => {
   try {
     const data = req.body;
@@ -88,11 +89,11 @@ const getResponseFromQuery = async (req, res, next) => {
     //
     //
     var messagesList = [
-      ...getMessagesList(prompt, query),
       {
         role: "system",
-        content: `The nature of the user is ${userNature?.nature}. Generate a response keeping the user's nature in mind.`,
+        content: `The nature and preferences of the user is ${userNature?.nature}. Only provide the user's preferences when user wants his/her preferences!`,
       },
+      ...getMessagesList(prompt, query),
       {
         role: "system",
         content: `you are provided with some preferences which should be followed to generate the response. The response should have ${tonePreference} Conversational Style and the response length to be ${lengthPreference}`,

@@ -99,7 +99,7 @@ export default function ChatBot({ tryName, name, apiUrl, initialMessages }) {
     setAllChats(updatedChats);
     setSearchInput("");
 
-    const tempChats = structuredClone(updatedChats);
+    const tempChats = [...updatedChats];
 
     updatedChats.push({ role: "assistant", message: "..." });
     setAllChats(updatedChats);
