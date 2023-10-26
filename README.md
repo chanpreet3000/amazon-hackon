@@ -1,4 +1,6 @@
-## Amazon Hackon 2023 Project (Team: Techno Sapiens)
+## Amazon Hackon 2023 (Season 3) Prototype
+**Team Name**: *Techno Sapiens*
+
 **Theme**: *Contextual Shopping experience with Generative AI + AWS*
 # DEMO
 - Deployed on Website: [Website Link](http://ec2-34-229-147-48.compute-1.amazonaws.com/)
